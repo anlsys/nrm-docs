@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to NRM’s documentation! &#8212; NRM  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quickstart" href="quickstart.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">NRM  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to NRM’s documentation!</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="welcome-to-nrm-s-documentation">
+<h1>Welcome to NRM’s documentation!<a class="headerlink" href="#welcome-to-nrm-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>If you know about NRM and are just looking to get it to run on your
+application, please visit the <a class="reference internal" href="quickstart.html"><span class="doc">quickstart</span></a> guide.</p>
+<p>This documentation is technical. For a high-level overview of NRM, please
+refer to the Argo <a class="reference external" href="https://www.mcs.anl.gov/research/projects/argo/overview/nrm/">website</a>.</p>
+<p>The Node Resource Manager(NRM) is a node-local userspace client-server daemon
+for managing your scientific applications. It runs the various tasks that
+compose an application in resource-constrained slices, monitors
+performance, power use and application progress, and arbitrates resources at
+the node level, among which CPU Cores, NUMA Nodes, and Power budgets.</p>
+<p>There are two user software components shipped with NRM itself: the <cite>nrm</cite>
+command-line client and the <cite>nrmd</cite> daemon. Additionally, NRM ships with the
+<cite>libnrm</cite> application instrumentation library, to be used for progress
+monitoring. The following diagram describes this architecture:</p>
+<blockquote>
+<div><img alt="_images/nrm.svg" src="_images/nrm.svg" /></div></blockquote>
+<p>Note that the container runtime used by NRM to allocate slices is a
+system-installed dependency, regardless of whether Argo NodeOS or Singularity is used.</p>
+<p>The <a class="reference internal" href="quickstart.html"><span class="doc">quickstart</span></a> guide describes the use of <cite>nrm</cite> and <cite>nrmd</cite>.
+Please refer to the <a class="reference internal" href="libnrm.html"><span class="doc">libnrm</span></a> guide for application
+instrumentation. See the <a class="reference external" href="http://hnrm.readthedocs.io/en/latest/_static/haddocks">haddock</a> documentation for the shared library API,
+and the <a class="reference external" href="http://hnrm.readthedocs.io/en/latest/_static/notebooks">notebooks</a> for python upstream client use.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#setup-launching-the-nrmd-daemon">Setup: Launching the <cite>nrmd</cite> daemon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#running-jobs-using-nrm">Running jobs using <cite>nrm</cite></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="libnrm.html">Libnrm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libnrm.html#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libnrm.html#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libnrm.html#using-libnrm-in-your-c-c-application">Using libnrm in your C/ C++ application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libnrm.html#using-libnrm-in-your-fortran-application">Using libnrm in your Fortran application</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to NRM’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="next chapter">Quickstart</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">NRM  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to NRM’s documentation!</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Argonne National Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

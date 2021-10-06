@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Libnrm &#8212; NRM  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NRM  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Libnrm</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="libnrm">
+<h1>Libnrm<a class="headerlink" href="#libnrm" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the libnrm guide. This document will help you in your use of the
+C/C++ and Fortran interface for NRM.</p>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<p>The libnrm code can be installed from source:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> libnrm
+./autogen.sh
+./configure
+make <span class="o">&amp;&amp;</span> make install
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="using-libnrm-in-your-c-c-application">
+<h2>Using libnrm in your C/ C++ application<a class="headerlink" href="#using-libnrm-in-your-c-c-application" title="Permalink to this headline">¶</a></h2>
+<p>The best way to understand how to make your application report progress to NRM
+is to use an example:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#</span><span class="w"> </span><span class="cp">include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;hello</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;number %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;done!&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>To make this code report progress to NRM, we need to:</p>
+<ul class="simple">
+<li><p>include the library in the same way you include your other dependencies,</p></li>
+<li><p>declare a nrm_context structure,</p></li>
+<li><p>initialize your NRM context,</p></li>
+<li><p>report progress to NRM at one point in your code,</p></li>
+<li><p>close the connection and delete your NRM context,</p></li>
+</ul>
+<p>using the functions from the API. We end up with something like this:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#</span><span class="w"> </span><span class="cp">include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#</span><span class="w"> </span><span class="cp">include</span><span class="w"> </span><span class="cpf">&lt;nrm.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">struct</span> <span class="nc">nrm_context</span><span class="w"> </span><span class="n">context</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;hello</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">nrm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;example&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;number %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">nrm_send_progress</span><span class="p">(</span><span class="o">&amp;</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;done!&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">nrm_fini</span><span class="p">(</span><span class="o">&amp;</span><span class="n">context</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="using-libnrm-in-your-fortran-application">
+<h2>Using libnrm in your Fortran application<a class="headerlink" href="#using-libnrm-in-your-fortran-application" title="Permalink to this headline">¶</a></h2>
+<p>The same thing can be done with a Fortran application, using the Fortran
+interface of this library. Let’s take a similar example:</p>
+<div class="highlight-Fortran notranslate"><div class="highlight"><pre><span></span><span class="k">implicit none</span>
+
+<span class="kt">integer </span><span class="n">i</span>
+
+<span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="s2">&quot;hello&quot;</span>
+
+<span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span>
+  <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">i</span>
+<span class="k">end do</span>
+
+<span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="s2">&quot;done!&quot;</span>
+</pre></div>
+</div>
+<p>The functions in the Fortran interface are similar to the ones from the C API,
+only with a <cite>f_</cite> in front.
+To talk to NRM, the code becomes:</p>
+<div class="highlight-Fortran notranslate"><div class="highlight"><pre><span></span><span class="k">implicit none</span>
+
+<span class="k">include</span> <span class="s1">&#39;f_nrm.h&#39;</span>
+<span class="k">include</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">NRM_PTR</span><span class="p">)</span> <span class="n">context</span>
+
+<span class="kt">integer </span><span class="n">rc</span><span class="p">,</span> <span class="n">i</span>
+
+<span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="s2">&quot;hello&quot;</span>
+<span class="n">rc</span> <span class="o">=</span> <span class="n">f_nrm_ctxt_create</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+<span class="n">rc</span> <span class="o">=</span> <span class="n">f_nrm_init</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s1">&#39;example&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">))</span>
+
+<span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span>
+  <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">i</span>
+  <span class="n">progress</span> <span class="o">=</span> <span class="mf">1.0</span>
+  <span class="n">rc</span> <span class="o">=</span> <span class="n">f_nrm_send_progress</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
+<span class="k">end do</span>
+
+<span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="s2">&quot;done!&quot;</span>
+<span class="n">rc</span> <span class="o">=</span> <span class="n">f_nrm_fini</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+<span class="n">rc</span> <span class="o">=</span> <span class="n">f_nrm_ctxt_delete</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Libnrm</a><ul>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+<li><a class="reference internal" href="#using-libnrm-in-your-c-c-application">Using libnrm in your C/ C++ application</a></li>
+<li><a class="reference internal" href="#using-libnrm-in-your-fortran-application">Using libnrm in your Fortran application</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="previous chapter">Quickstart</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/libnrm.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NRM  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Libnrm</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Argonne National Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>
