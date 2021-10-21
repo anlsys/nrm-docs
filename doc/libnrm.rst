@@ -12,6 +12,7 @@ Install
 
 The libnrm code can be installed from source::
 
+ git clone https://github.com/anlsys/libnrm.git
  cd libnrm
  ./autogen.sh
  ./configure
@@ -49,7 +50,7 @@ is to use an example::
 To make this code report progress to NRM, we need to:
 
 - include the library in the same way you include your other dependencies,
-- declare a nrm_context structure,
+- declare a ``nrm_context`` structure,
 - initialize your NRM context,
 - report progress to NRM at one point in your code,
 - close the connection and delete your NRM context,
@@ -97,7 +98,7 @@ interface of this library. Let's take a similar example::
  print*, "done!"
 
 The functions in the Fortran interface are similar to the ones from the C API,
-only with a `f_` in front.
+only with a ``f_`` in front.
 To talk to NRM, the code becomes::
 
  implicit none

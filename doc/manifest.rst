@@ -1,0 +1,4 @@
+Manifest Guide
+==============
+
+Hello world!
