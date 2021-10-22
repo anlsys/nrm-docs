@@ -125,7 +125,7 @@ through its command-line options.::
 Running jobs using `nrm`
 ========================
 
-Tasks are configured using a JSON file called a :doc:`manifest<manifest>` and started using the ``nrm``
+Tasks are configured using a JSON file called a *manifest* and started using the ``nrm``
 command-line utility. Here's an example manifest that allocates two CPUS and
 enables application progress monitoring with a one-second rate limit.::
 
@@ -146,10 +146,9 @@ This manifest can be used in the following way to launch a command::
  INFO:nrm:process ended: msg_up_rpc_rep_process_exit(api=u'up_rpc_rep', container_uuid=u'b54f12ed-6418-4b32-b6ab-2dda7503a1c8', status=u'0', type=u'process_exit')
  INFO:nrm:command ended: msg_up_rpc_rep_process_exit(api=u'up_rpc_rep', container_uuid=u'b54f12ed-6418-4b32-b6ab-2dda7503a1c8', status=u'0', type=u'process_exit')
 
-.. Is the manifest yaml or json?
-
-You have run your first nrm-enabled command. See the :doc:`manifest
-guide <manifest>` for an in-depth description of the manifest file format.
+You have run your first nrm-enabled command. See the
+:doc:`configuration notebook <notebooks/configuration>` for an in-depth
+description of the manifest file format.
 
 ``nrm`` command-line options
 ----------------------------
@@ -165,7 +164,7 @@ The ``nrm`` command-line client can be used for a number of operations::
     -h, --help            show this help message and exit
     -v, --verbose         verbose logging information
 
-Start containerized tasks, using a container specification we refer to as an application :doc:`manifest <manifest>`::
+Start containerized tasks, using a container specification we refer to as an application *manifest*::
 
   usage: nrm run [-h] [-u [UCONTAINERNAME]] manifest command ...
 
