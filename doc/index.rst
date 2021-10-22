@@ -28,13 +28,12 @@ Please refer to the :doc:`libnrm <libnrm>` guide for application
 instrumentation. See the `haddock`_ documentation for the shared library API,
 and the notebooks under :doc:`NRM-Python<nrm-python:index>` for python upstream client use.
 
-.. intersphinx does not work with toctrees - needed to hardcode
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    quickstart
+   notebooks
    manifest
    libnrm
    NRM-Python <https://nrm.readthedocs.io/projects/nrm-python/en/master/>
