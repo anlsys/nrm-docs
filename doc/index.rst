@@ -30,13 +30,25 @@ and the notebooks under :doc:`NRM-Python<nrm-python:index>` for python upstream 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: User Guide:
 
    quickstart
    notebooks
    libnrm
    NRM-Python <https://nrm.readthedocs.io/projects/nrm-python/en/master/>
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Internal:
+
    NRM-Core <https://nrm.readthedocs.io/projects/nrm-core/en/master/>
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Additional References:
+
+   release-notes
 
 Indices and tables
 ==================
