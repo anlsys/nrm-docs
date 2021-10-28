@@ -13,6 +13,31 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import requests
+outdir = './configfiles'
+base = 'https://raw.githubusercontent.com/anlsys/nrm-core/master/'
+configfiles = ['hsnrm/dhall/types/nrmd.dhall',
+               'hsnrm/dhall/defaults/nrmd.dhall',
+               'resources/defaults/nrmd.json',
+               'examples/nrmd/control.yaml',
+               'hsnrm/dhall/types/manifest.dhall',
+               'hsnrm/dhall/defaults/manifest.dhall',
+               'hsnrm/dhall/defaults/manifest.dhall',
+               'resources/defaults/manifest.json',
+               'examples/manifests/perfwrap.yaml'
+               ]
+
+# Download each of the above for literal-includes in docs
+os.makedirs(outdir, exist_ok=True)
+os.chdir(outdir)
+for file in configfiles:
+    if file not in os.listdir('.'):
+        dirs = file.split('/')
+        with open('_'.join([dirs[-2], dirs[-1]]), 'wb') as f:
+            f.write(requests.get(base+file).content)
+
+os.chdir('..')
+
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 

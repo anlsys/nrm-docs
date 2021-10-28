@@ -35,6 +35,7 @@ and the notebooks under :doc:`NRM-Python<nrm-python:index>` for python upstream 
    quickstart
    notebooks
    libnrm
+   config
    NRM-Python <https://nrm.readthedocs.io/projects/nrm-python/en/master/>
 
 .. toctree::
