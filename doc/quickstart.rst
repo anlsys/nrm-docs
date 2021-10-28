@@ -147,7 +147,7 @@ This manifest can be used in the following way to launch a command::
  INFO:nrm:command ended: msg_up_rpc_rep_process_exit(api=u'up_rpc_rep', container_uuid=u'b54f12ed-6418-4b32-b6ab-2dda7503a1c8', status=u'0', type=u'process_exit')
 
 You have run your first nrm-enabled command. See the
-:doc:`configuration notebook <notebooks/configuration>` for an in-depth
+:doc:`configuration guide <config>` for an in-depth
 description of the manifest file format.
 
 ``nrm`` command-line options

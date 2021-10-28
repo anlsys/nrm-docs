@@ -72,7 +72,7 @@ needs_sphinx = '2.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.intersphinx", "nbsphinx"]
+extensions = ["sphinx.ext.intersphinx"]
 intersphinx_mapping = {
     'nrm-python': ('https://nrm.readthedocs.io/projects/nrm-python/en/master/', None),
     'nrm-core': ('https://nrm.readthedocs.io/projects/nrm-core/en/master/', None)
@@ -126,7 +126,6 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 # html_static_path = ['_static', 'nrm.so', 'notebooks']
-html_static_path = ['../notebooks']
 
 
 # Custom sidebar templates, must be a dictionary that maps document names
