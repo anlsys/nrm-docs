@@ -17,17 +17,6 @@ Container piece
 The NRM code now supports mapping slices on both Singularity containers and
 NodeOS compute containers.
 
-.. NodeOS
-.. ^^^^^^
-..
-.. For NodeOS container usage, you need to install our container piece
-.. on the system. On a production platform, this should be done by a sysadmin. On
-.. a development platform, this can be achieved with::
-..
-..  git clone https://xgitlab.cels.anl.gov/argo/containers.git
-..  cd containers
-..  make install
-
 Singularity
 ^^^^^^^^^^^
 
@@ -38,30 +27,34 @@ NRM
 ---
 
 The NRM core library must be installed first. Binary releases are available on GitHub_.
-If installation via this route is selected, the ``NRMSO`` and ``PYNRMSO`` environment
-variables must point to the extracted shared library files, e.g.::
+If installing via this method, ensure that ``LD_LIBRARY_PATH`` points to the directory
+that contains the extracted shared library files. Otherwise, set the ``NRMSO``
+and ``PYNRMSO`` environment variables like the following::
 
-    tar xf nrm-core-master.tar.gz
-    export NRMSO=${PWD}/nrm-core-master/lib/libnrm-core.so
-    export PYNRMSO=${PWD}/nrm-core-master/lib/libnrm-core-python.so
+    tar xf nrm-core-v0.7.0-x86_64-linux.tar.gz
+    export NRMSO=${PWD}/nrm-core-v0.7.0-x86_64-linux/lib/libnrm-core.so
+    export PYNRMSO=${PWD}/nrm-core-v0.7.0-x86_64-linux/lib/libnrm-core-python.so
 
-The ``nrm`` client is available in ``nrm-core-master/bin``.
+The ``nrm`` client is available in ``nrm-core-v0.7.0-x86_64-linux/bin``.
 
 Alternatively, the NRM core components (the ``nrmd`` daemon and ``nrm`` client)
 can be installed in other ways:
 
 Using Spack
 ^^^^^^^^^^^
-::
 
- spack install nrm
+The various components of NRM are available on Spack. The ``nrm-core`` package
+contains the core library and ``py-nrm`` contains the Python interface. The ``nrm``
+package contains documentation and example configuration scripts, and also installs
+the other components::
 
-.. Using Nix
-.. ^^^^^^^^^
-..
-.. NRM has a Nix package in our local package repository::
-..
-..  nix-env -f "https://xgitlab.cels.anl.gov/argo/argopkgs/-/archive/master/argopkgs-master.tar.gz" -iA nrm
+
+    spack install nrm-core
+    spack install py-nrm
+
+or::
+
+    spack install nrm
 
 Using Pip
 ^^^^^^^^^
@@ -101,7 +94,7 @@ through its command-line options::
 Running jobs using `nrm`
 ========================
 
-Tasks are configured using a yaml file called a *manifest* and started using the ``nrm``
+Tasks are configured using a config file called a *manifest* and started using the ``nrm``
 command-line utility. Here's an example manifest that allocates two CPUS and
 enables application progress monitoring with a one-second rate limit::
 
@@ -196,4 +189,4 @@ Set a node power target::
 
 
 .. _Singularity: https://singularity.lbl.gov/install-request
-.. _ GitHub: https://github.com/anlsys/nrm-core/releases/tag/master-build
+.. _ GitHub: https://github.com/anlsys/nrm-core/releases
