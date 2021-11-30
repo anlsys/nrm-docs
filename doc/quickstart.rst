@@ -17,17 +17,6 @@ Container piece
 The NRM code now supports mapping slices on both Singularity containers and
 NodeOS compute containers.
 
-NodeOS
-^^^^^^
-
-For NodeOS container usage, you need to install our container piece
-on the system. On a production platform, this should be done by a sysadmin. On
-a development platform, this can be achieved with::
-
- git clone https://xgitlab.cels.anl.gov/argo/containers.git
- cd containers
- make install
-
 Singularity
 ^^^^^^^^^^^
 
@@ -37,30 +26,43 @@ page.
 NRM
 ---
 
-The NRM core components (the ``nrmd`` daemon and ``nrm`` client) can be installed
-in multiple ways:
+The NRM core library must be installed first. Binary releases are available on GitHub_.
+If installing via this method, ensure that ``LD_LIBRARY_PATH`` points to the directory
+that contains the extracted shared library files. Otherwise, set the ``NRMSO``
+and ``PYNRMSO`` environment variables like the following::
+
+    tar xf nrm-core-v0.7.0-x86_64-linux.tar.gz
+    export NRMSO=${PWD}/nrm-core-v0.7.0-x86_64-linux/lib/libnrm-core.so
+    export PYNRMSO=${PWD}/nrm-core-v0.7.0-x86_64-linux/lib/libnrm-core-python.so
+
+The ``nrm`` client is available in ``nrm-core-v0.7.0-x86_64-linux/bin``.
+
+Alternatively, the NRM core components (the ``nrmd`` daemon and ``nrm`` client)
+can be installed in other ways:
 
 Using Spack
 ^^^^^^^^^^^
-::
 
- spack install nrm
+The various components of NRM are available on Spack. The ``nrm-core`` package
+contains the core library and ``py-nrm`` contains the Python interface. The ``nrm``
+package contains documentation and example configuration scripts, and also installs
+the other components::
 
-Using Nix
-^^^^^^^^^
 
-NRM has a Nix package in our local package repository::
+    spack install nrm-core
+    spack install py-nrm
 
- nix-env -f "https://xgitlab.cels.anl.gov/argo/argopkgs/-/archive/master/argopkgs-master.tar.gz" -iA nrm
+or::
+
+    spack install nrm
 
 Using Pip
 ^^^^^^^^^
 
-You should be able to get NRM and its dependencies on any machine with::
+After obtaining NRM-Core, you should be able to get the NRM Python interface
+and most of its dependencies on any machine with::
 
- pip install git+https://xgitlab.cels.anl.gov/argo/nrm.git
-
-And entering the resulting virtual environment with ``pipenv shell``.
+ pip install https://github.com/anlsys/nrm-python.git
 
 Setup: Launching the `nrmd` daemon
 ==================================
@@ -76,58 +78,25 @@ default.
 -----------------------------
 
 The ``nrmd`` daemon is mainly configured
-through its command-line options.::
+through its command-line options::
 
-  usage: nrmd [-h] [-c FILE] [-d] [-v] [--nrm_log NRM_LOG] [--hwloc HWLOC]
-              [--argo_nodeos_config ARGO_NODEOS_CONFIG] [--perf PERF]
-              [--pmpi_lib PMPI_LIB] [--argo_perf_wrapper ARGO_PERF_WRAPPER]
-              [--singularity SINGULARITY]
-              [--container-runtime {nodeos,singularity}]
+    Usage: nrmd [-i|--stdin] [CONFIG] [-y|--yaml]
+      NRM Daemon
 
-  optional arguments:
-    -h, --help            show this help message and exit
-    -c FILE, --configuration FILE
-                          Specify a config json-formatted config file to
-                          override any of the available CLI options. If an
-                          option is actually provided on the command-line, it
-                          overrides its corresponding value from the
-                          configuration file.
-    -d, --print_defaults  Print the default configuration file.
-    -v, --verbose         increase output verbosity
-    --nrm_log NRM_LOG     Main log file. Override default with the NRM_LOG
-                          environment variable
-    --hwloc HWLOC         Path to the hwloc to use. This path can be relative
-                          and makes uses of the $PATH if necessary. Override
-                          default with the HWLOC environment variable.
-    --argo_nodeos_config ARGO_NODEOS_CONFIG
-                          Path to the argo_nodeos_config to use. This path can
-                          be relative and makes uses of the $PATH if necessary.
-                          Override default with the ARGO_NODEOS_CONFIG
-                          environment variable.
-    --perf PERF           Path to the linux perf tool to use. This path can be
-                          relative and makes uses of the $PATH if necessary.
-                          Override default with the PERF environment variable.
-    --pmpi_lib PMPI_LIB   Path to the libnrm PMPI library used for the power
-                          policy. Override default with the PMPI environment
-                          variable.
-    --argo_perf_wrapper ARGO_PERF_WRAPPER
-                          Path to the linux perf tool to use. This path can be
-                          relative and makes uses of the $PATH if necessary.
-                          Override default with the PERFWRAPPER environment
-                          variable.
-    --singularity SINGULARITY
-                          Path to the singularity command. Override default with
-                          the SINGULARITY environment variable.
-    --container-runtime {nodeos,singularity}
-                          Choice of container runtime. Override default with the
-                          ARGO_CONTAINER_RUNTIME environment variable.
+    Available options:
+      -h,--help                Show this help text
+      -i,--stdin               Read configuration on stdin.
+      CONFIG                   Input configuration with .yml/.yaml/.dh/.dhall
+                               extension. Leave void for stdin (dhall) input.
+      -y,--yaml                Assume configuration to be yaml instead of dhall.
+      -h,--help                Show this help text
 
 Running jobs using `nrm`
 ========================
 
-Tasks are configured using a JSON file called a *manifest* and started using the ``nrm``
+Tasks are configured using a config file called a *manifest* and started using the ``nrm``
 command-line utility. Here's an example manifest that allocates two CPUS and
-enables application progress monitoring with a one-second rate limit.::
+enables application progress monitoring with a one-second rate limit::
 
   name: basic
   version: 0.0.1
@@ -220,3 +189,4 @@ Set a node power target::
 
 
 .. _Singularity: https://singularity.lbl.gov/install-request
+.. _ GitHub: https://github.com/anlsys/nrm-core/releases
