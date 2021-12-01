@@ -189,4 +189,4 @@ Set a node power target::
 
 
 .. _Singularity: https://singularity.lbl.gov/install-request
-.. _ GitHub: https://github.com/anlsys/nrm-core/releases
+.. _GitHub: https://github.com/anlsys/nrm-core/releases
