@@ -1,47 +1,121 @@
 NRM Configuration/Manifest Guide
 ================================
 
+The ``dhall`` and ``dhall-to-json`` utilities are available as convenience in
+this environment should you need them.
+
+Types common to both daemon configuration and manifest scripts can be found here:
+
+.. literalinclude:: ../examples/common_types.dhall
+   :caption: /examples/common_types.dhall
+   :linenos:
+
 Daemon Configuration
 --------------------
+
+Types
+^^^^^
 
 ``nrmd``'s configuration can be defined
 in ``json``, ``yaml``, or `Dhall`_ formats. Admissible values are defined
 via the following ``dhall`` file:
 
-.. literalinclude:: ./configfiles/types_nrmd.dhall
+.. literalinclude:: ../examples/nrmd/nrmd_types.dhall
+   :caption: /examples/nrmd/nrmd_types.dhall
+   :linenos:
 
-Optional values are filled using defaults that can
-be found in either Dhall or ``json`` format:
+Defaults
+^^^^^^^^
 
-.. literalinclude:: ./configfiles/defaults_nrmd.dhall
+Optional values are filled using defaults, here expressed in
+both ``dhall`` and ``json``:
 
-.. literalinclude:: ./configfiles/defaults_nrmd.json
+.. literalinclude:: ../examples/nrmd/nrmd_defaults.dhall
+   :caption: /examples/nrmd/nrmd_defaults.dhall
+   :linenos:
 
-Attribute merging is always performed with those defaults. Example configurations
-are located in the `examples`_ folder.
+.. literalinclude:: ../examples/nrmd/nrmd_defaults.json
+   :caption: /examples/nrmd/nrmd_defaults.json
+   :linenos:
 
-.. literalinclude:: ./configfiles/nrmd_control.yaml
+Examples
+^^^^^^^^
+
+Attribute merging is always performed with these defaults. Example configurations
+are located in the `examples`_ folder, but we include each of them here. Note that
+Dhall is valid as a configuration language:
+
+.. literalinclude:: ../examples/nrmd/control.yaml
+   :caption: /examples/nrmd/control.yaml
+   :linenos:
+
+.. literalinclude:: ../examples/nrmd/control.dhall
+   :caption: /examples/nrmd/control.dhall
+   :linenos:
+
+.. literalinclude:: ../examples/nrmd/extra-static-sensor.dhall
+   :caption: /examples/nrmd/extra-static-sensor.dhall
+   :linenos:
+
+.. literalinclude:: ../examples/nrmd/extra-static-sensor.yaml
+   :caption: /examples/nrmd/extra-static-sensor.yaml
+   :linenos:
+
+.. literalinclude:: ../examples/nrmd/extra-static-actuator.json
+   :caption: /examples/nrmd/extra-static-actuator.json
+   :linenos:
 
 Manifest Configuration
 ----------------------
 
-Manifest files can also be defined either using Dhall, YAML, or JSON,
-and are in similar formats or locations:
+Types
+^^^^^
 
-.. literalinclude:: ./configfiles/types_manifest.dhall
+Manifest files can also be defined either using Dhall, ``yaml``, or ``json``.
+Admissible values are defined via the following ``dhall`` file:
 
-Under-specified manifests like the one in our ```workloads`` above (with missing
-optional fields from the schema) fill missing values with defaults, which are located
-here:
+.. literalinclude:: ../examples/manifests/manifest_types.dhall
+   :caption: /examples/manifests/manifest_types.dhall
+   :linenos:
 
-.. literalinclude:: ./configfiles/defaults_manifest.dhall
+Defaults
+^^^^^^^^
 
-The ``dhall`` and ``dhall-to-json`` utilities are available as convenience in
-this environment should you need them. Dhall is useful as a configuration language in itself:
+Under-specified manifests are also filled with defaults, specified here
+in both ``dhall`` and ``json``:
 
-.. literalinclude:: ./configfiles/defaults_manifest.json
+.. literalinclude:: ../examples/manifests/manifest_defaults.dhall
+   :caption: /examples/manifests/manifest_defaults.dhall
+   :linenos:
 
-.. literalinclude:: ./configfiles/manifests_perfwrap.yaml
+.. literalinclude:: ../examples/manifests/manifest_defaults.json
+   :caption: /examples/manifests/manifest_defaults.json
+   :linenos:
+
+Examples
+^^^^^^^^
+
+The following could be used with the `libnrm`_ interface:
+
+.. literalinclude:: ../examples/manifests/libnrm.dhall
+   :caption: /examples/manifests/libnrm.dhall
+   :linenos:
+
+.. literalinclude:: ../examples/manifests/libnrm.json
+   :caption: /examples/manifests/libnrm.json
+   :linenos:
+
+The following could be used with the `perf`_ utility:
+
+.. literalinclude:: ../examples/manifests/perfwrap.dhall
+   :caption: /examples/manifests/perfwrap.dhall
+   :linenos:
+
+.. literalinclude:: ../examples/manifests/perfwrap.yaml
+   :caption: /examples/manifests/perfwrap.yaml
+   :linenos:
 
 .. _`Dhall`: https://dhall-lang.org/
-.. _`examples`: https://github.com/anlsys/nrm-core/tree/master/examples
+.. _`examples`: https://github.com/anlsys/nrm-docs/tree/main/examples
+.. _`libnrm`: https://github.com/anlsys/libnrm
+.. _`perf`: https://www.man7.org/linux/man-pages/man1/perf.1.html

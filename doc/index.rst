@@ -44,12 +44,6 @@ and the notebooks under :doc:`NRM-Python<nrm-python:index>` for python upstream 
    NRM-Core <https://nrm.readthedocs.io/projects/nrm-core/en/master/>
 
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Additional References:
-
-   release-notes
-
 Indices and tables
 ==================
 
