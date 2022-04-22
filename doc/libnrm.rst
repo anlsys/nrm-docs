@@ -18,65 +18,118 @@ The libnrm code can be installed from source::
  ./configure
  make && make install
 
-API
-===
-
-.. .. doxygengroup:: nrm
-..     :project: nrm
-
-Using libnrm in your C/ C++ application
-=======================================
+Using libnrm in your C / C++ application
+========================================
 .. highlight:: C
 
-The best way to understand how to make your application report progress to NRM
-is to use an example::
+1. Include NRM and create a context
+-----------------------------------
 
- # include <stdio.h>
+To make code report progress to NRM, we need to:
 
- int main()
- {
-   int i;
+- Include the library in the same way you include your other dependencies::
 
-   printf("hello\n")
+    # include <nrm.h>
 
-   for (i=1; j<4; i++){
-     printf("number %i\n",i);
+- Create a ``nrm_context`` structure, corresponding to this program::
+
+    struct nrm_context *context;
+    context = nrm_ctxt_create();
+
+- Initialize this NRM context::
+
+    nrm_init(context, "my-program", 0, 0);  // zeros refer to rank, thread
+
+2. Determine measurements and create scopes
+-------------------------------------------
+
+- Create a ``nrm_scope`` structure **for each** measurement to report. If only reporting
+  a single measurement, the following is all you need::
+
+    struct nrm_scope *scope;
+    scope = nrm_scope_create();
+
+  However, if reporting multiple measurements, feel free to use the ``nrm_scope_t`` type
+  to create an array of scopes, e.g.::
+
+    nrm_scope_t *nrm_scopes[NUM_MEASUREMENTS];
+    for (int i=0; i<NUM_MEASUREMENTS, i++){
+      scope = nrm_scope_create();
+      nrm_scopes[i] = scope;
+    }
+
+- Configure your scope(s) to contain a resource type and corresponding logical indexes for that resource::
+
+    // For example, for each logical CPU (calculated separately)
+    for (int i=0; i<num_logical_cpus; i++) {
+      nrm_scope_add(scope, NRM_SCOPE_TYPE_CPU, i);
+    }
+
+Other scope types include ``NRM_SCOPE_TYPE_NUMA``, ``NRM_SCOPE_TYPE_GPU``, and ``NRM_SCOPE_TYPE_MAX``.
+
+3. Send measurements and close down
+-----------------------------------
+
+- Report measurement progress to NRM using the context and a scope::
+
+    int measurement = example_get_cpu_measurement();
+    nrm_send_progress(context, measurement, scope);
+
+- Finalize the connection, delete the NRM scope(s) and context::
+
+    nrm_fini(context);
+    nrm_scope_delete(scope);
+    nrm_ctxt_delete(context);
+
+4. Complete example
+-------------------
+
+The best way to understand how to make your application report progress to NRM is to use an example.
+The following simple program uses each of the previously described NRM components
+to periodically report a measurement that corresponds to a set of logical CPUs on some system::
+
+   # include <stdio.h>
+   # include <unistd.h>
+   # include <nrm.h>
+
+   int main()
+   {
+     int i, num_logical_cpus, measurement;
+     struct nrm_context *context;
+     struct nrm_scope *scope;
+
+     context = nrm_ctxt_create();
+     nrm_init(context, "my-program", 0, 0);
+
+     scope = nrm_scope_create();
+
+     num_logical_cpus = example_get_num_logical_cpus();
+     for (int i=0; i<num_logical_cpus; i++) {
+       nrm_scope_add(scope, NRM_SCOPE_TYPE_CPU, i);
+     }
+
+     printf("hello\n")
+
+     do {
+       measurement = example_get_cpu_measurement();
+       nrm_send_progress(context, measurement, scope);
+       sleep(1);
+     } while (measurement != 0);
+
+     printf("done!");
+
+     nrm_fini(context);
+     nrm_scope_delete(scope);
+
+     return 0;
    }
 
-   printf("done!");
-   return 0;
- }
+See ``nrm.h`` below for more NRM user API information.
 
-To make this code report progress to NRM, we need to:
+nrm.h
+-----
 
-- include the library in the same way you include your other dependencies,
-- declare a ``nrm_context`` structure,
-- initialize your NRM context,
-- report progress to NRM at one point in your code,
-- close the connection and delete your NRM context,
-
-using the functions from the API. We end up with something like this::
-
- # include <stdio.h>
- # include <nrm.h>
-
- int main()
- {
-   int i;
-   struct nrm_context context;
-
-   printf("hello\n")
-   nrm_init(&context, "example");
-
-   for (i=1; j<4; i++){
-     printf("number %i\n",i);
-     nrm_send_progress(&context, 1);
-   }
-
-   printf("done!");
-   nrm_fini(&context);
-   return 0;
- }
+.. literalinclude:: nrm.h
 
 Using libnrm in your Fortran application
 ========================================
@@ -85,39 +138,39 @@ Using libnrm in your Fortran application
 The same thing can be done with a Fortran application, using the Fortran
 interface of this library. Let's take a similar example::
 
- implicit none
+   implicit none
 
- integer i
+   integer i
 
- print*, "hello"
+   print*, "hello"
 
- do i=1, 4
-   print*, "number", i
- end do
+   do i=1, 4
+     print*, "number", i
+   end do
 
- print*, "done!"
+   print*, "done!"
 
 The functions in the Fortran interface are similar to the ones from the C API,
 only with a ``f_`` in front.
 To talk to NRM, the code becomes::
 
- implicit none
+   implicit none
 
- include 'f_nrm.h'
- include(kind=NRM_PTR) context
+   include 'f_nrm.h'
+   include(kind=NRM_PTR) context
 
- integer rc, i
+   integer rc, i
 
- print*, "hello"
- rc = f_nrm_ctxt_create(context);
- rc = f_nrm_init(context, 'example', len('example'))
+   print*, "hello"
+   rc = f_nrm_ctxt_create(context);
+   rc = f_nrm_init(context, 'example', len('example'))
 
- do i=1, 4
-   print*, "number", i
-   progress = 1.0
-   rc = f_nrm_send_progress(context, progress)
- end do
+   do i=1, 4
+     print*, "number", i
+     progress = 1.0
+     rc = f_nrm_send_progress(context, progress)
+   end do
 
- print*, "done!"
- rc = f_nrm_fini(context)
- rc = f_nrm_ctxt_delete(context)
+   print*, "done!"
+   rc = f_nrm_fini(context)
+   rc = f_nrm_ctxt_delete(context)

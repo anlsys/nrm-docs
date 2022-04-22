@@ -15,7 +15,12 @@
 
 import os
 import sys
+import requests
 sys.path.append(os.path.abspath('../examples'))
+
+nrmh = "https://raw.githubusercontent.com/anlsys/libnrm/master/src/nrm.h"
+with open("nrm.h", "wb") as f:
+    f.write(requests.get(nrmh).content)
 
 # import os
 # import sys
