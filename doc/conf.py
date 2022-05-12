@@ -18,10 +18,6 @@ import sys
 import requests
 sys.path.append(os.path.abspath('../examples'))
 
-nrmh = "https://raw.githubusercontent.com/anlsys/libnrm/master/src/nrm.h"
-with open("nrm.h", "wb") as f:
-    f.write(requests.get(nrmh).content)
-
 # import os
 # import sys
 # import subprocess
@@ -55,6 +51,7 @@ needs_sphinx = '2.0'
 # ones.
 extensions = ["sphinx.ext.intersphinx"]
 intersphinx_mapping = {
+    'libnrm': ('https://nrm.readthedocs.io/projects/libnrm/en/master/', None),
     'nrm-python': ('https://nrm.readthedocs.io/projects/nrm-python/en/master/', None),
     'nrm-core': ('https://nrm.readthedocs.io/projects/nrm-core/en/master/', None)
 }

@@ -24,7 +24,7 @@ Note that the container runtime used by NRM to allocate slices is a
 system-installed dependency, regardless of whether Argo NodeOS or Singularity is used.
 
 The :doc:`quickstart <quickstart>` guide describes the use of ``nrm`` and ``nrmd``.
-Please refer to the :doc:`libnrm <libnrm>` guide for application
+Please refer to the ``libnrm`` guide for application
 instrumentation. See the `haddock`_ documentation for the shared library API,
 and the notebooks under :doc:`NRM-Python<nrm-python:index>` for python upstream client use.
 
@@ -33,8 +33,8 @@ and the notebooks under :doc:`NRM-Python<nrm-python:index>` for python upstream 
    :caption: User Guides:
 
    quickstart
-   libnrm
    config
+   libnrm <https://nrm.readthedocs.io/projects/libnrm/en/master/
    NRM-Python <https://nrm.readthedocs.io/projects/nrm-python/en/master/>
 
 .. toctree::
