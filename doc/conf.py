@@ -15,23 +15,13 @@
 
 import os
 import sys
-import requests
 sys.path.append(os.path.abspath('../examples'))
 
-# import os
-# import sys
-# import subprocess
-
-# read_the_docs = os.environ.get('READTHEDOCS', None) == 'True'
-# if read_the_docs:
-    # subprocess.call('doxygen', shell=True)
-    # # Readthedocs doxygen version is too old to copy images when building xml
-    # subprocess.call('cp img/*png build-doxygen/xml/', shell=True)
 
 # -- Project information -----------------------------------------------------
 
 project = u'NRM'
-copyright = u'2021, Argonne National Laboratory'
+copyright = u'2022, Argonne National Laboratory'
 author = u'Argo team, Argonne National Laboratory'
 
 # The short X.Y version
@@ -98,7 +88,10 @@ html_theme = 'sphinx_rtd_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    "navigation_depth": 3,
+    "collapse_navigation": False
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

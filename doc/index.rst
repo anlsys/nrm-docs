@@ -34,7 +34,12 @@ and the notebooks under :doc:`NRM-Python<nrm-python:index>` for python upstream 
 
    quickstart
    config
-   libnrm <https://nrm.readthedocs.io/projects/libnrm/en/master/
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Instrumentation:
+
+   libnrm (C and Fortran API) <https://nrm.readthedocs.io/projects/libnrm/en/master/>
    NRM-Python <https://nrm.readthedocs.io/projects/nrm-python/en/master/>
 
 .. toctree::
